@@ -4,6 +4,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
+import com.elias.game.graphics.Screen;
+
 public class Frame extends JFrame{
 	
 	public Frame() {
@@ -16,6 +18,9 @@ public class Frame extends JFrame{
 	
 	public void init() {
 		setLayout(new GridLayout(1, 1, 0, 0));	
+		
+		Screen s = new Screen();
+		add(s);
 		
 		pack();
 		
