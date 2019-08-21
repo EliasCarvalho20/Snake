@@ -3,13 +3,16 @@ package com.elias.game.graphics;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import com.elias.game.entities.Apple;
 import com.elias.game.entities.BodyPart;
 
-public class Screen extends JPanel implements Runnable{
+public class Screen extends JPanel implements Runnable, KeyListener{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -20,6 +23,9 @@ public class Screen extends JPanel implements Runnable{
 	private BodyPart b;
 	private ArrayList<BodyPart> snake;
 	
+	private Apple apple;
+	private ArrayList<Apple> apples;
+	
 	private boolean right = true, left = false, up = false, down = false;
 	
 	private int xCoor = 10, yCoor = 10, size = 5;
@@ -27,9 +33,13 @@ public class Screen extends JPanel implements Runnable{
 	private int ticks = 0;
 	
 	public Screen() {
+		setFocusable(true);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		
+		addKeyListener(this);
+		
 		snake = new ArrayList<BodyPart>();
+		apples = new ArrayList<Apple>();
 		
 		start();		
 	}
@@ -62,6 +72,7 @@ public class Screen extends JPanel implements Runnable{
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 		
 		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
 		for (int i=0; i<WIDTH/10; i++) {
 			g.drawLine(i * 10, 0, i * 10, HEIGHT);
 		}
@@ -92,4 +103,36 @@ public class Screen extends JPanel implements Runnable{
 		}
 	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		if (key == KeyEvent.VK_RIGHT && !left) {
+			right = true;			
+			up = false;
+			down = false;			
+		}
+		if (key == KeyEvent.VK_LEFT && !right) {
+			left = true;			
+			up = false;
+			down = false;			
+		}
+		if (key == KeyEvent.VK_UP && !down) {
+			up = true;			
+			left = false;
+			right = false;			
+		}
+		if (key == KeyEvent.VK_DOWN && !up) {
+			down = true;
+			left = false;	
+			right = false;					
+		}		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {		
+	}
 }
